@@ -10,6 +10,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Remove Node.js 18.6.0
+          command: |
+            if which nvm > /dev/null; then
+              source ~/.nvm/nvm.sh
+              nvm uninstall 18.6.0
+            elif which brew > /dev/null; then
+              brew uninstall node@18
+            else
+              sudo rm -rf /usr/local/bin/node /usr/local/bin/npm /usr/local/lib/node_modules
+            fi
+      - run:
           name: Install Node.js 20.15.0 and npm directly
           command: |
             # Download Node.js 20.15.0 binaries

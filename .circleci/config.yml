@@ -10,40 +10,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Clean up all Node.js versions
+          name: Install Homebrew
           command: |
-            # Remove NVM installations
-            rm -rf ~/.nvm
-            # Remove Homebrew installation of Node.js
-            brew uninstall node
-            brew cleanup
-            # Remove any Node.js binaries installed directly
-            sudo rm -rf /usr/local/node-v*
-            sudo rm -f /usr/local/bin/node
-            sudo rm -f /usr/local/bin/npm
-            sudo rm -f /usr/local/bin/npx
-
-            # Verify removal
-            node -v  # Should not return a version
-            npm -v   # Should not return a version
+            if ! which brew; then
+              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            fi
       - run:
-          name: Install Node.js 20.15.0 and npm directly
+          name: Install Node.js 20.15.0
           command: |
-            # Download Node.js 20.15.0 binaries
-            curl -O https://nodejs.org/dist/v20.15.0/node-v20.15.0-darwin-x64.tar.gz
-
-            # Extract the downloaded file
-            tar -xzf node-v20.15.0-darwin-x64.tar.gz
-
-            # Move Node.js binaries to a system location
-            sudo mv node-v20.15.0-darwin-x64 /usr/local/node-v20.15.0
-            sudo ln -s /usr/local/node-v20.15.0/bin/node /usr/local/bin/node
-            sudo ln -s /usr/local/node-v20.15.0/bin/npm /usr/local/bin/npm
-            sudo ln -s /usr/local/node-v20.15.0/bin/npx /usr/local/bin/npx
-
-            # Verify the installation of Node.js and npm
-            node -v  # Should show v20.15.0
-            npm -v   # Should show the npm version bundled with Node.js
+            brew install node@20
+      - run:
+          name: Verify Node.js Installation
+          command: |
+            node -v
+            npm -v
       - run:
           name: Install Dependencies
           command: npm install

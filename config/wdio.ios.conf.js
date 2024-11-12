@@ -38,7 +38,7 @@ config.services = [
     {
       args: {
         address: "localhost",
-        port: 4724,
+        port: 4723,
         relaxedSecurity: true,
       },
       logPath: "./",

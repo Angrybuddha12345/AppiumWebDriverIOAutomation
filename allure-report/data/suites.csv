@@ -1,4 +1,5 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
 "","17390","Delete a note & check the note in trash can","","Thu Nov 07 20:13:42 IST 2024","failed","Thu Nov 07 20:13:59 IST 2024","","Delete Note","",""
-"","1793","Skip tutorial","","Thu Nov 07 20:13:35 IST 2024","passed","Thu Nov 07 20:13:37 IST 2024","","Delete Note","",""
+"","4882","Exercise: Enter text in the search field","","Tue Nov 12 16:27:20 IST 2024","passed","Tue Nov 12 16:27:25 IST 2024","","iOS Find Element","",""
 "","5125","add a note, save changes & verify note","","Thu Nov 07 20:13:37 IST 2024","passed","Thu Nov 07 20:13:42 IST 2024","","Delete Note","",""
+"","1793","Skip tutorial","","Thu Nov 07 20:13:35 IST 2024","passed","Thu Nov 07 20:13:37 IST 2024","","Delete Note","",""

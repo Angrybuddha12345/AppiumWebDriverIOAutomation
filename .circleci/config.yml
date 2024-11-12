@@ -35,7 +35,7 @@ jobs:
             appium -v
             appium &
             sleep 5
-            npx wdio config/wdio.conf.js
+            npx wdio config/wdio.shared.conf.js
 
 workflows:
   build_and_test:

@@ -27,13 +27,6 @@ jobs:
             # Verify the active Node.js version
             node -v
       - run:
-          name: Verify Node.js Installation
-          command: |
-            node -v
-            npm -v
-            nvm ls
-            nvm alias default 20.15.0
-      - run:
           name: Install Dependencies
           command: npm install
       # Install Appium

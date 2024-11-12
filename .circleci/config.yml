@@ -9,13 +9,21 @@ jobs:
       DEVICE_NAME: iPhone 14 Pro
     steps:
       - checkout
-      # Install Node.js
+      - run:
+          name: Install Java JDK
+          command: |
+            brew tap AdoptOpenJDK/openjdk
+            brew install --cask adoptopenjdk8
+      # Install Node.js and dependencies
       - run:
           name: Install Node.js
           command: |
             brew install node
             node -v
             npm -v
+      - run:
+          name: Install Dependencies
+          command: npm install
       # Install Appium
       - run:
           name: Install Appium

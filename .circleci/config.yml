@@ -33,7 +33,7 @@ jobs:
             npm install
             npm install -g appium
             appium -v
-            appium &
+            appium -p 4724 &
             sleep 5
             npx wdio config/wdio.ios.conf.js
 

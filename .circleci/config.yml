@@ -74,6 +74,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
+            nvm use 20.2.0
             npx wdio config/wdio.conf.js
 workflows:
   build_and_test:

@@ -10,32 +10,25 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install nvm
+          name: Uninstall all Node.js versions via nvm
           command: |
+            # Install nvm if it's not already installed
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
             source ~/.nvm/nvm.sh
-      - run:
-          name: Uninstall currently active Node.js version
-          command: |
-            source ~/.nvm/nvm.sh
-            nvm deactivate
-            nvm uninstall $(nvm current)
-      - run:
-          name: Verify Node.js version
-          command: |
-            node -v
-            nvm ls
-      - run:
-          name: Switch to Node.js v16.14.0
-          command: |
-            source ~/.nvm/nvm.sh
-            nvm use 20.2.0
-            node -v
-      - run:
-          name: Verify Node.js version
-          command: |
-            node -v
-            nvm ls
+
+            # Uninstall all Node.js versions managed by nvm
+            nvm ls | grep -o 'v[0-9]*\.[0-9]*\.[0-9]*' | xargs -I {} nvm uninstall {}
+
+            # Clean up global node modules
+            sudo rm -rf /usr/local/lib/node_modules
+
+            # Remove Node.js binaries (if installed manually or system-wide)
+            sudo rm -rf /usr/local/bin/node /usr/local/bin/npm
+
+            # Remove nvm (if you want to fully clean nvm as well)
+            rm -rf ~/.nvm
+            rm -f ~/.bash_profile ~/.zshrc ~/.profile
+
       - run:
           name: Install Node.js 20.15.0 and npm directly
           command: |

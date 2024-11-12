@@ -9,11 +9,16 @@ jobs:
       DEVICE_NAME: iPhone 14 Pro
     steps:
       - checkout
-      # Install Node.js and dependencies
       - run:
-          name: Install Node.js
+          name: Install NVM and Node.js
           command: |
-            brew install node@16
+            # Install NVM
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            source ~/.nvm/nvm.sh
+            # Install specific Node.js version (e.g., v14.17.6)
+            nvm install 16.9.1
+            nvm use 16.9.1
+            # Verify installation
             node -v
             npm -v
       - run:

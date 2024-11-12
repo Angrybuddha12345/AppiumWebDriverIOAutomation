@@ -10,17 +10,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Specific Node.js Version with Homebrew
+          name: Install Node.js
           command: |
-            brew install node@22  # Replace 14 with your desired version
-            echo 'export PATH="/usr/local/opt/node@22/bin:$PATH"' >> ~/.bash_profile
-            source ~/.bash_profile
-            # Verify installation
-            node -v
-            npm -v
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            source ~/.nvm/nvm.sh
+            nvm install 20.15.0  # Replace '16' with the Node.js version you need
+            nvm use 20.15.0
+
+      # Optionally install a specific npm version after Node.js
       - run:
-          name: Install Dependencies
-          command: npm install
+          name: Install Specific npm Version
+          command: |
+            npm install -g npm@8  # Replace '8' with your required npm version
+            npm -v  # Verify the npm version
+
       # Install Appium
       - run:
           name: Install Appium

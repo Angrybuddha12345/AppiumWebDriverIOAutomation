@@ -14,22 +14,25 @@ jobs:
           command: |
             # Install nvm (Node Version Manager)
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-            source ~/.nvm/nvm.sh  # Ensure nvm is sourced
+            # Ensure nvm is sourced in the current session
+            source ~/.nvm/nvm.sh
       - run:
           name: Install Node.js v20.15.0 and npm
           command: |
-            # Load nvm
+            # Load nvm to make sure it's available
             source ~/.nvm/nvm.sh
             # Install Node.js v20.15.0 (npm will be installed automatically with Node.js)
             nvm install 20.15.0
-            # Use Node.js v20.15.0
+            # Use Node.js v20.15.0 as the active version
             nvm use 20.15.0
-            # Verify the installed Node.js and npm versions
+            # Ensure the installed Node.js and npm versions are available
             node -v
             npm -v
       - run:
           name: Install Dependencies
-          command: npm install
+          command: |
+            npm -v
+            npm install
       # Install Appium
       - run:
           name: Install Appium

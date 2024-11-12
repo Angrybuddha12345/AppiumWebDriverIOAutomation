@@ -12,20 +12,21 @@ jobs:
       - run:
           name: Install nvm
           command: |
-            # Install nvm
+            # Install nvm (Node Version Manager)
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
             source ~/.nvm/nvm.sh  # Ensure nvm is sourced
       - run:
-          name: Install Node.js v20.15.0 and set it as active
+          name: Install Node.js v20.15.0 and npm
           command: |
             # Load nvm
             source ~/.nvm/nvm.sh
-            # Install Node.js version 20.15.0
+            # Install Node.js v20.15.0 (npm will be installed automatically with Node.js)
             nvm install 20.15.0
-            # Set it as the active version
+            # Use Node.js v20.15.0
             nvm use 20.15.0
-            # Verify the active Node.js version
+            # Verify the installed Node.js and npm versions
             node -v
+            npm -v
       - run:
           name: Install Dependencies
           command: npm install

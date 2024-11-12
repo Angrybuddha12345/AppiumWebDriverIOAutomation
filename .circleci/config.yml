@@ -16,12 +16,23 @@ jobs:
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
             source ~/.nvm/nvm.sh
             # Install specific Node.js version (e.g., v14.17.6)
-            nvm install 20.15.0
-            nvm use 20.15.0
+            nvm install 20.10.5
+            nvm use 20.10.5
             # Verify installation
             node -v
             npm -v
-            npm install
+      - run:
+          name: Install or Update npm
+          command: |
+            curl -L https://www.npmjs.com/install.sh | sh
+            npm -v  # Verify npm version
+      - run:
+          name: Install Dependencies
+          command: npm install
+      # Install Appium
+      - run:
+          name: Install Appium
+          command: |
             npm install -g appium
             appium -v
       # Start Appium Server

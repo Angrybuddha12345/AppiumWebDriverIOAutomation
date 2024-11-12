@@ -10,14 +10,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install NVM and Node.js
+          name: Install Specific Node.js Version with Homebrew
           command: |
-            # Install NVM
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            source ~/.nvm/nvm.sh
-            # Install specific Node.js version (e.g., v14.17.6)
-            nvm install 16.9.1
-            nvm use 16.9.1
+            brew install node@20  # Replace 14 with your desired version
+            echo 'export PATH="/usr/local/opt/node@20/bin:$PATH"' >> ~/.bash_profile
+            source ~/.bash_profile
             # Verify installation
             node -v
             npm -v

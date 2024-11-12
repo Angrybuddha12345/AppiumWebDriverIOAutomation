@@ -10,24 +10,29 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Node.js 20.15.0 and npm directly
+          name: Install nvm
           command: |
-            # Download Node.js 20.15.0 binaries
-            curl -O https://nodejs.org/dist/v20.15.0/node-v20.15.0-darwin-x64.tar.gz
-
-            # Extract the downloaded file
-            tar -xzf node-v20.15.0-darwin-x64.tar.gz
-
-            # Move Node.js binaries to a system location
-            sudo mv node-v20.15.0-darwin-x64 /usr/local/node-v20.15.0
-            sudo ln -s /usr/local/node-v20.15.0/bin/node /usr/local/bin/node
-            sudo ln -s /usr/local/node-v20.15.0/bin/npm /usr/local/bin/npm
-            sudo ln -s /usr/local/node-v20.15.0/bin/npx /usr/local/bin/npx
+            # Install nvm
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+            source ~/.nvm/nvm.sh  # Ensure nvm is sourced
+      - run:
+          name: Install Node.js v20.15.0 and set it as active
+          command: |
+            # Load nvm
+            source ~/.nvm/nvm.sh
+            # Install Node.js version 20.15.0
+            nvm install 20.15.0
+            # Set it as the active version
+            nvm use 20.15.0
+            # Verify the active Node.js version
+            node -v
       - run:
           name: Verify Node.js Installation
           command: |
             node -v
             npm -v
+            nvm ls
+            nvm alias default 20.15.0
       - run:
           name: Install Dependencies
           command: npm install

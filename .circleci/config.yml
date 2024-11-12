@@ -18,6 +18,7 @@ jobs:
           name: Uninstall currently active Node.js version
           command: |
             source ~/.nvm/nvm.sh
+            nvm deactivate
             nvm uninstall $(nvm current)
       - run:
           name: Verify Node.js version

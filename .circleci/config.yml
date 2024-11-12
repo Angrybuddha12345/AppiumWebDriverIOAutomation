@@ -21,9 +21,7 @@ jobs:
             # Verify installation
             node -v
             npm -v
-      - run:
-          name: Install Dependencies
-          command: npm install
+            npm install
       # Install Appium
       - run:
           name: Install Appium

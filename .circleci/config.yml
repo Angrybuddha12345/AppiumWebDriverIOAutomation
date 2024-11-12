@@ -25,7 +25,9 @@ jobs:
             nvm install 20.15.0
             # Use Node.js v20.15.0 as the active version
             nvm use 20.15.0
-            # Ensure the installed Node.js and npm versions are available
+            # Set npm path
+            export PATH="$HOME/.nvm/versions/node/v20.15.0/bin:$PATH"
+            # Verify the installed Node.js and npm versions
             node -v
             npm -v
       - run:

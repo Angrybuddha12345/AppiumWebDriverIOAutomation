@@ -16,8 +16,8 @@ jobs:
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
             source ~/.nvm/nvm.sh
             # Install specific Node.js version (e.g., v14.17.6)
-            nvm install 20.10.5
-            nvm use 20.10.5
+            nvm install 20.10.0
+            nvm use 20.10.0
             # Verify installation
             node -v
             npm -v

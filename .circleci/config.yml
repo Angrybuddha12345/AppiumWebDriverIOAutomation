@@ -30,31 +30,13 @@ jobs:
             # Verify the installed Node.js and npm versions
             node -v
             npm -v
-            nvm ls
-            echo $PATH
-      - run:
-          name: Install Dependencies
-          command: |
-            npm -v
             npm install
-      # Install Appium
-      - run:
-          name: Install Appium
-          command: |
             npm install -g appium
             appium -v
-      # Start Appium Server
-      - run:
-          name: Start Appium Server
-          command: |
             appium &
             sleep 5
-      # Run Tests
-      - run:
-          name: Run Tests
-          command: |
-            nvm use 20.15.0
             npx wdio config/wdio.conf.js
+
 workflows:
   build_and_test:
     jobs:

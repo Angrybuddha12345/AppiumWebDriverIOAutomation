@@ -10,9 +10,18 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Remove Node.js 18.6.0
+          name: Install nvm
           command: |
-            sudo rm -rf /usr/local/bin/node /usr/local/bin/npm /usr/local/lib/node_modules
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+            source ~/.nvm/nvm.sh
+      - run:
+          name: Remove Node.js version 18.6.0
+          command: |
+            source ~/.nvm/nvm.sh
+            nvm uninstall 18.6.0
+            nvm list
+            nvm uninstall --lts
+            nvm uninstall --latest
       - run:
           name: Install Node.js 20.15.0 and npm directly
           command: |

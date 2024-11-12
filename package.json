@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "allure-commandline": "^2.32.0",
-    "path": "^0.12.7"
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
+    "wdio-video-reporter": "^4.0.5"
   }
 }

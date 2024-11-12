@@ -1,128 +1,39 @@
 version: 2.1
 
-# Define the jobs we want to run for this project
 jobs:
   ios:
     macos: # indicate that we are using the macOS executor
-      xcode: 11.7.0
+      xcode: 14.3.1
     environment:
-      IOS_VERSION: 12.4
-      DEVICE_NAME: TestiPhoneX
+      IOS_VERSION: 16.4
+      DEVICE_NAME: iPhone 14 Pro
     steps:
       - checkout
-      - run: npm install -g react-native-cli
-      - run: |
-          gem install xcode-install
-      - run: |
-          xcrun simctl create $DEVICE_NAME com.apple.CoreSimulator.SimDeviceType.iPhone-X com.apple.CoreSimulator.SimRuntime.iOS-12-4 > deviceid.txt 
-          sed -i -e "s/{IOS-DEVICE-UDID}/$DEVICEUUID/g" appium.ios.conf.js
-          sed -i -e "s/{IOS-DEVICE-PLATFORM-VERSION}/$IOS_VERSION/g" appium.ios.conf.js
-          sed -i -e "s/{IOS-DEVICE-NAME}/$DEVICE_NAME/g" appium.ios.conf.js
-          cat appium.ios.conf.js
+      # Install Node.js
       - run:
-          name: Starting simulator in background
-          command: DEVICEUUID=`cat deviceid.txt` && echo $DEVICEUUID && xcrun simctl boot $DEVICEUUID
-          background: true
-      - run: |
-          rm -rf node_modules
-          npm cache clean --force
-          rm -rf package-lock.json
-      - run: gem install cocoapods
-      - run: npm install --save-dev
-      - run: npm audit fix
-      - run: npm install --save-dev chai
-      - run: |
-          cd ios && pod install --repo-update && cd ..
+          name: Install Node.js
+          command: |
+            brew install node
+            node -v
+            npm -v
+      # Install Appium
       - run:
-          name: Starting metro in background
-          command: npm start --reset-cache &> metro-ios.log
-          background: true
-      - run: |
-          react-native run-ios --simulator=$DEVICE_NAME &> build-ios.log
-          sleep 30
-          BUILT_APP=`find ~/Library/Developer/Xcode/DerivedData -name HelloWorld.app | grep Build/Products/Debug-iphonesimulator/HelloWorld.app`
-          mkdir -p ios/build/HelloWorld/Build/Products/Debug-iphonesimulator
-          cp -R $BUILT_APP ios/build/HelloWorld/Build/Products/Debug-iphonesimulator
+          name: Install Appium
+          command: |
+            npm install -g appium
+            appium -v
+      # Start Appium Server
       - run:
-          name: Run E2E Tests - iOS
-          command: npm run e2e-test:ios -- Sanity &> test-execution-console-ios.log
-          no_output_timeout: 30m
-      - store_artifacts:
-          path: metro-ios.log
-          destination: metro-ios.log
-      - store_artifacts:
-          path: build-ios.log
-          destination: build-ios.log
-      - store_artifacts:
-          path: test-execution-console-ios.log
-          destination: test-execution-console-ios.log
-      - store_artifacts:
-          path: __tests__/e2e/test-results
-          destination: test-results-ios
-  android:
-    macos: # indicate that we are using the macOS executor
-      xcode: 11.7.0
-    environment:
-      JAVA_HOME: /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-      ANDROID_SDK_ROOT: /usr/local/Caskroom/android-sdk/4333796
-    steps:
-      - checkout
-      - run: npm install -g react-native-cli
-      - run: |
-          brew install --cask homebrew/cask-versions/adoptopenjdk8
-          brew install gradle
-          brew install android-sdk
-          brew install android-platform-tools
-          brew install --cask intel-haxm
-      - run: |
-          export PATH=$JAVA_HOME/bin:$PATH
-          echo "y" | sdkmanager --install 'system-images;android-28;google_apis;x86_64'
-          echo "no" | avdmanager create avd -n test_device -k 'system-images;android-28;google_apis;x86_64' --force
-          emulator -list-avds
-          ls -la /Users/$USER/.android/avd
-          sdkmanager "platform-tools" "platforms;android-28"
+          name: Start Appium Server
+          command: |
+            appium &
+            sleep 5
+      # Run Tests
       - run:
-          name: Starting emulator in background
-          command: export ANDROID_AVD_HOME=/Users/$USER/.android/avd && export ANDROID_HOME=$ANDROID_SDK_ROOT && $ANDROID_HOME/emulator/emulator -avd test_device -skin 1080x1920 -memory 1024 -engine qemu2 -netfast -no-audio -no-snapshot -accel on
-          background: true
-      - run: |
-          adb wait-for-device
-          adb devices
-          echo "Emulator started"
-      - run: |
-          rm -rf node_modules
-          npm cache clean --force
-          rm -rf package-lock.json
-      - run: npm install --save-dev
-      - run: npm audit fix
-      - run: npm install --save-dev chai
-      - run:
-          name: Starting metro in background
-          command: npm start --reset-cache &> metro-android.log
-          background: true
-      - run: |
-          react-native run-android &> build-android.log
-          sleep 30
-      - run:
-          name: Run E2E Tests - Android
-          command: npm run e2e-test:android -- Sanity &> test-execution-console-android.log
-          no_output_timeout: 30m
-      - store_artifacts:
-          path: metro-android.log
-          destination: metro-android.log
-      - store_artifacts:
-          path: build-android.log
-          destination: build-android.log
-      - store_artifacts:
-          path: test-execution-console-android.log
-          destination: test-execution-console-android.log
-      - store_artifacts:
-          path: __tests__/e2e/test-results
-          destination: test-results-android
-
-# Orchestrate our job run sequence
+          name: Run Tests
+          command: |
+            npx wdio config/wdio.conf.js
 workflows:
   build_and_test:
     jobs:
       - ios
-      - android

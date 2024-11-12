@@ -1,3 +1,4 @@
+const video = require("wdio-video-reporter");
 const allure = require("allure-commandline");
 exports.config = {
   //

@@ -73,6 +73,6 @@ describe("Delete Note", () => {
       '//*[@resource-id="com.socialnmobile.dictapps.notepad.color.note:id/title"]'
     );
 
-    await expect(trashCanItem).toHaveText("Test Change");
+    await expect(trashCanItem).toHaveText("Test123");
   });
 });

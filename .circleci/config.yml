@@ -26,6 +26,17 @@ jobs:
             node -v
             nvm ls
       - run:
+          name: Switch to Node.js v16.14.0
+          command: |
+            source ~/.nvm/nvm.sh
+            nvm use 20.2.0
+            node -v
+      - run:
+          name: Verify Node.js version
+          command: |
+            node -v
+            nvm ls
+      - run:
           name: Install Node.js 20.15.0 and npm directly
           command: |
             # Download Node.js 20.15.0 binaries

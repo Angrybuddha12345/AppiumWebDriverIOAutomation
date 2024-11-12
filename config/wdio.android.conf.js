@@ -5,7 +5,7 @@ const { config } = require("./wdio.shared.conf");
 // Runner Configuration
 // ====================
 //
-config.port = 4724;
+config.port = 4723;
 
 //
 // ============

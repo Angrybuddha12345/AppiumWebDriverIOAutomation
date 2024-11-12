@@ -12,8 +12,8 @@ jobs:
       - run:
           name: Install Specific Node.js Version with Homebrew
           command: |
-            brew install node@20.15.0  # Replace 14 with your desired version
-            echo 'export PATH="/usr/local/opt/node@20.15.0/bin:$PATH"' >> ~/.bash_profile
+            brew install node@22  # Replace 14 with your desired version
+            echo 'export PATH="/usr/local/opt/node@22/bin:$PATH"' >> ~/.bash_profile
             source ~/.bash_profile
             # Verify installation
             node -v

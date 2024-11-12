@@ -10,6 +10,23 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Clean up all Node.js versions
+          command: |
+            # Remove NVM installations
+            rm -rf ~/.nvm
+            # Remove Homebrew installation of Node.js
+            brew uninstall node
+            brew cleanup
+            # Remove any Node.js binaries installed directly
+            sudo rm -rf /usr/local/node-v*
+            sudo rm -f /usr/local/bin/node
+            sudo rm -f /usr/local/bin/npm
+            sudo rm -f /usr/local/bin/npx
+
+            # Verify removal
+            node -v  # Should not return a version
+            npm -v   # Should not return a version
+      - run:
           name: Install Node.js 20.15.0 and npm directly
           command: |
             # Download Node.js 20.15.0 binaries
